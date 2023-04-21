@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+ <div class="container">
+    <form action="">
+        <h1>Tip caculator</h1>
+        <span>$</span><input type="text" placeholder="Bill amount"><br><br>
+        <b>How was your survice?</b> <br><br>
+        <select name="" id="">
+            <option value="">--Choose an option--</option>
+            <option value="30">30%</option>
+            <option value="20">20%</option>
+            <option value="15">15%</option>
+            <option value="10">10%</option>
+            <option value="5">5%</option>
+        </select>
+        <p>how many people are sharing the bill?</p>
+        <input type="text" placeholder="Number of people">
+        <span>people</span><br> <br>
+        <button type="button">Caculate!</button>
+        <div id="tip-amount"></div>
+    </form>
+ </div>
+</body>
+<script>
+const billInput = document.querySelector('input[type="text"]');
+const selectEl = document.querySelector('select');
+const peopleInput = document.querySelector('input[type="number"]');
+const calculateBtn = document.querySelector('button[type="button"]');
+const tipOutput = document.querySelector('#tip-amount');
+calculateBtn.addEventListener('click', () => {
+  // Lấy giá trị từ input và select
+  const billAmount = parseFloat(billInput.value);
+  const percentage = parseFloat(selectEl.value) / 100;
+  const numberOfPeople = parseInt(peopleInput.value);
+
+  // Kiểm tra xem giá trị nhập vào có hợp lệ hay không
+  if (isNaN(billAmount) || isNaN(percentage) || isNaN(numberOfPeople) || numberOfPeople < 1) {
+    tipOutput.textContent = 'Invalid input. Please try again!';
+    return;
+  }
+
+  // Tính tiền tip
+  const tipAmount = (billAmount * percentage) / numberOfPeople;
+
+  // Hiển thị kết quả
+  tipOutput.textContent = `$${tipAmount.toFixed(2)} per person`;
+  tipOutput.innerHTML = `$${tipAmount.toFixed(2)} per person`;
+});
+</script>
+</html>

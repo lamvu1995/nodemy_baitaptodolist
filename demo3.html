@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h1>Quản Lí Sản Phẩm</h1>
+<span>Nhập tên sản phẩm: </span>
+<input type="text" id="name-input">
+<button type="button" id="add-btn">Add Product</button>
+<ul id="list-product"></ul>
+</body>
+<script>
+   let nameInput = document.getElementById('name-input');
+let addBtn = document.getElementById('add-btn');
+let listProduct = document.getElementById('list-product');
+let products = [];
+
+function addProduct() {
+    let name = nameInput.value.trim();
+    if (name) {
+        let product = {name};
+        products.push(product);
+        displayProducts();
+        nameInput.value = '';
+    }
+}
+
+function deleteProduct(index) {
+    products.splice(index, 1);
+    displayProducts();
+}
+
+function editProduct(index) {
+    const newName = prompt('Nhập tên mới cho sản phẩm');
+    if (newName) {
+        products[index].name = newName;
+        displayProducts();
+    }
+}
+
+function displayProducts() {
+    listProduct.innerHTML = '';
+    for (let i = 0; i < products.length; i++) {
+        let listItem = document.createElement('li');
+        let listName = document.createElement('span');
+        listName.textContent = products[i].name;
+        let deleteBtn = document.createElement('button');
+        deleteBtn.addEventListener('click', () => deleteProduct(i));
+        let editBtn = document.createElement('button');
+        editBtn.addEventListener('click', () => editProduct(i));
+        deleteBtn.textContent = 'Xóa';
+        editBtn.textContent = 'Edit';
+        listItem.appendChild(listName);
+        listItem.appendChild(deleteBtn);
+        listItem.appendChild(editBtn);
+        listProduct.appendChild(listItem);
+    }
+}
+
+addBtn.addEventListener('click', addProduct);
+displayProducts();
+
+</script>
+</html>

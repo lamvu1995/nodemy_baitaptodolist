@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <form action="">
+            <h1>Quản lí sản phẩm</h1>
+            <span id="name">Tên sản phẩm:</span>
+            <input type="text" id="add-input">
+            <button type="button" id="btn-add">add</button>
+        </form>
+        <ul id="product-list">
+        </ul>
+    </div>
+</body>
+<script>
+   let addInput = document.getElementById('add-input');
+let buttonAdd = document.getElementById('btn-add');
+let productList = document.getElementById('product-list');
+let products = [];
+
+function addProduct() {
+  let name = addInput.value.trim();
+  if (name) {
+    let product = {name};
+    products.push(product);
+    displayProduct();
+    addInput.value = '';
+  }
+}
+
+function deleteProduct(index) {
+  products.splice(index, 1);
+  displayProduct();
+}
+
+function editProduct(index) {
+  // Tạo modal
+  let modal = document.createElement('div');
+  modal.classList.add('modal');
+  
+  // Tạo form
+  let form = document.createElement('form');
+  
+  // Tạo input field cho tên sản phẩm
+  let input = document.createElement('input');
+  input.type = 'text';
+  input.value = products[index].name;
+  
+  // Tạo nút Lưu
+  let saveBtn = document.createElement('button');
+  saveBtn.textContent = 'Lưu';
+  saveBtn.addEventListener('click', () => {
+    // Lưu thay đổi vào sản phẩm
+    products[index].name = input.value;
+    // Đóng modal và hiển thị lại danh sách sản phẩm
+    modal.remove();
+    displayProduct();
+  });
+  
+  // Tạo nút Hủy
+  let cancelBtn = document.createElement('button');
+  cancelBtn.textContent = 'Hủy';
+  cancelBtn.addEventListener('click', () => {
+    // Đóng modal
+    modal.remove();
+  });
+  
+  // Thêm các element vào form
+  form.appendChild(input);
+  form.appendChild(saveBtn);
+  form.appendChild(cancelBtn);
+  
+  // Thêm form vào modal và modal vào body
+  modal.appendChild(form);
+  document.body.appendChild(modal);
+  displayProduct()
+}
+
+function displayProduct() {
+    productList.innerHTML = '';
+    for (let i = 0; i < products.length; i++) {
+        let listItem = document.createElement('li');
+        let itemName = document.createElement('span');
+        itemName.textContent = products[i].name;
+        let deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Xoa';
+        deleteBtn.addEventListener('click', () => deleteProduct(i));
+        let editBtn = document.createElement('button');
+        editBtn.textContent = 'Sua';
+        editBtn.addEventListener('click', () => editProduct(i));
+        listItem.appendChild(itemName);
+        listItem.appendChild(deleteBtn);
+        listItem.appendChild(editBtn);
+        productList.appendChild(listItem);
+    }
+}
+
+buttonAdd.addEventListener('click', addProduct);
+displayProduct();
+</script>
+
+</html>

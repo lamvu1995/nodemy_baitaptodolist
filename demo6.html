@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>quản lí sản phẩm</h1>
+    <form action="">
+        <input type="text" id="input-add">
+        <button type="button" id="btn-add">Add Product</button>
+    </form>
+    <ul id="list-product"></ul>
+</body>
+<script>
+    let inputAdd = document.querySelector('#input-add');
+    let btnAdd = document.querySelector('#btn-add')
+    let listProduct = document.querySelector('#list-product')
+    let products = [];
+    function addProduct() {
+        let name = inputAdd.value;
+        let product = { name }
+        if (name) {
+            products.push(product);
+            displayProduct()
+            inputAdd.value = ''
+        }
+    }
+    function deleteProduct(index) {
+        products.splice(index, 1)
+        displayProduct();
+    }
+    function editProduct(index) {
+        let newName = prompt('Nhap ten moi')
+        if (newName) {
+            products[index].name = newName
+        }
+        displayProduct()
+    }
+    function displayProduct() {
+        listProduct.innerHTML = ''
+        for (let i = 0; i < products.length; i++) {
+            let listItem = document.createElement('li')
+            let nameItem = document.createElement('span')
+            nameItem.textContent = products[i].name
+            let deleteBtn = document.createElement('button')
+            deleteBtn.textContent = 'Delete'
+            deleteBtn.addEventListener('click', function() { deleteProduct(i)})
+            let editBtn = document.createElement('button')
+            editBtn.textContent = 'Edit'
+            editBtn.addEventListener('click', function() { editProduct(i)})
+            listItem.appendChild(nameItem)
+            listItem.appendChild(deleteBtn)
+            listItem.appendChild(editBtn)
+            listProduct.appendChild(listItem)
+        }
+
+    }
+    btnAdd.addEventListener('click', addProduct)
+    displayProduct()
+
+</script>
+
+</html>

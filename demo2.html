@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quản lý sản phẩm</title>
+  </head>
+  <body>
+    <h1>Quản lý sản phẩm</h1>
+    <form>
+      <label for="name">Tên sản phẩm:</label>
+      <input type="text" id="name" name="name" required>
+      <button type="button" id="add-btn">Thêm sản phẩm</button>
+    </form>
+    <ul id="product-list"></ul>
+    
+    <script>
+      // Lấy phần tử DOM
+      const nameInput = document.getElementById('name');
+      const addBtn = document.getElementById('add-btn');
+      const productList = document.getElementById('product-list');
+      
+      // Khởi tạo danh sách sản phẩm
+      let products = [];
+
+      // Thêm sản phẩm mới vào danh sách
+      function addProduct() {
+        const name = nameInput.value.trim(); // Lấy tên sản phẩm từ input và xóa khoảng trắng đầu/cuối chuỗi
+        if (name) { // Kiểm tra tên sản phẩm có rỗng không
+          const product = { name };
+          products.push(product);
+          displayProducts();
+          nameInput.value = ''; // Xóa giá trị trong input
+        }
+      }
+      
+      // Xóa sản phẩm khỏi danh sách
+      function deleteProduct(index) {
+        products.splice(index, 1);
+        displayProducts();
+      }
+      
+      // Sửa tên sản phẩm trong danh sách
+      function editProduct(index) {
+        const newName = prompt('Nhập tên mới cho sản phẩm');
+        if (newName) { // Kiểm tra tên sản phẩm mới có rỗng không
+          products[index].name = newName;
+          displayProducts();
+        }
+      }
+      
+      // Hiển thị danh sách sản phẩm
+      function displayProducts() {
+        productList.innerHTML = '';
+        for (let i = 0; i < products.length; i++) {
+          const product = products[i];
+          const listItem = document.createElement('li');
+          const itemName = document.createElement('span');
+          itemName.textContent = product.name;
+          const deleteBtn = document.createElement('button');
+          deleteBtn.textContent = 'Xóa';
+          deleteBtn.addEventListener('click', () => deleteProduct(i));
+          const editBtn = document.createElement('button');
+          editBtn.textContent = 'Sửa';
+          editBtn.addEventListener('click', () => editProduct(i));
+          listItem.appendChild(itemName);
+          listItem.appendChild(deleteBtn);
+          listItem.appendChild(editBtn);
+          productList.appendChild(listItem);
+        }
+      }
+      
+      // Đăng ký sự kiện click cho nút thêm sản phẩm
+      addBtn.addEventListener('click', addProduct);
+
+      // Hiển thị danh sách sản phẩm ban đầu
+      displayProducts();
+    </script>
+  </body>
+</html>

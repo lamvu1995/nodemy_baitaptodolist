@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <form action="">
+    <h1>Quản lí sản phẩm</h1>
+    <span id="name">Tên sản phẩm:</span>
+    <input type="text" id="add-input">
+    <button type="button" id="btn-add">add</button>
+</form>
+<ul id="product-list">
+</ul>
+    </div>
+
+</body>
+<script>
+    let addInput = document.getElementById('add-input')
+    let addBtn = document.getElementById('btn-add')
+    let productList = document.getElementById('product-list')
+    let products = [];
+function addProduct() {
+    let name = addInput.value.trim();
+    if(name){
+        let product = {name};
+        products.push(product)
+        displayProducts()
+        addInput.value = '';
+    }   
+}
+function deleteProduct(index) {
+        products.splice(index, 1);
+        displayProducts()
+    }
+    function editProduct(index) {
+        const newName = prompt('Nhập tên mới cho sản phẩm');
+        if (newName) { // Kiểm tra tên sản phẩm mới có rỗng không
+          products[index].name = newName;
+          displayProducts();
+        }
+      }
+function displayProducts() {
+    productList.innerHTML = '';
+    for (let i = 0; i < products.length; i++) {
+        let listItem = document.createElement('li');
+        let itemName = document.createElement('span');
+        itemName.textContent = products[i].name;
+        let deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Xóa'
+        deleteBtn.addEventListener('click', () => deleteProduct(i));
+        let editBtn = document.createElement('button');
+        editBtn.textContent = 'Sửa';
+        editBtn.addEventListener('click', () => editProduct(i))
+        listItem.appendChild(itemName)
+        listItem.appendChild(deleteBtn)
+        listItem.appendChild(editBtn)
+        productList.appendChild(listItem)
+    }
+    
+}
+addBtn.addEventListener('click', addProduct)
+    displayProducts
+</script>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="demo5.css">
+</head>
+<body>
+    <h1>Quản Lí Sản Phẩm</h1>
+<form action="">
+    <input type="text" id="input-1" placeholder="Nhập tên sản phẩm">
+    <input type="number" id="input-2" placeholder="Giá sản phẩm">
+    <button type="button" id="btn-add">Add Product</button>
+    <button type="button" id="btn-sort">Sắp xếp theo tên</button>
+    <button type="button" id="btn-sort2">Sắp xếp theo giá</button>
+</form>
+<ul id="listProduct"></ul>
+</body>
+<script>
+    let input1 = document.querySelector('#input-1')
+    let btnAdd = document.querySelector('#btn-add')
+    let listProduct = document.querySelector('#listProduct')
+    let btnSort = document.querySelector('#btn-sort')
+    let input2 = document.querySelector('#input-2')
+    let btnSort2 = document.querySelector('#btn-sort2')
+    let products = []
+    function addProduct() {
+        let name = input1.value.trim();
+        let price = input2.value.trim()
+        if (name && price) {
+        let product = {name, price}
+        console.log(product);
+        products.push(product)
+        displayProduct()
+        input1.value = ''
+        input2.value = ''
+    }
+    }
+    function deleteProduct(index) {
+        products.splice(index,1)
+        displayProduct()
+    }
+    function editHandler(index) {
+        let newName = prompt('Nhập tên mới')
+        if (newName) {
+        products[index].name = newName
+        displayProduct()
+    }
+    }
+    function inputSort() {
+        products.sort((a, b) => a.name - b.name)
+        displayProduct()
+    }
+    function inputSort2() {
+        products.sort((a,b) => a.price - b.price)
+        displayProduct()
+    }
+    
+function displayProduct() {
+  listProduct.innerHTML = ''
+  for (let i = 0; i < products.length; i++) {
+    let listItem = document.createElement('li')
+    let itemName = document.createElement('span')
+    itemName.setAttribute('id', 'spanName')
+    itemName.textContent = `Tên sản phẩm: ${products[i].name}`
+    let itemPrice = document.createElement('span')
+    itemPrice.textContent = `Giá sản phẩm: ${products[i].price}`
+    let deleteBtn = document.createElement('button')
+    deleteBtn.textContent = 'Delete'
+    deleteBtn.addEventListener('click', () => deleteProduct(i))
+    let editBtn = document.createElement('button')
+    editBtn.textContent = 'Edit'
+    editBtn.addEventListener('click', () => editHandler(i))
+    listItem.appendChild(itemName)
+    listItem.appendChild(itemPrice)
+    listItem.appendChild(deleteBtn)
+    listItem.appendChild(editBtn)
+    listProduct.appendChild(listItem)
+  }
+}
+    btnAdd.addEventListener('click', addProduct)
+    btnSort.addEventListener('click', inputSort)
+    btnSort2.addEventListener('click', inputSort2)
+
+    displayProduct()
+</script>
+</html>
